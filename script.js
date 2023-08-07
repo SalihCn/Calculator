@@ -4,6 +4,7 @@ const buttons = document.querySelectorAll('button');
 let calculation = [];
 let isOperator = false;
 
+
 function calculate(button)
  {
   const value = button.value;
@@ -21,7 +22,7 @@ function calculate(button)
       const result = evaluateExpression(calculation.join(''));
       screen.value = result;
       calculation = [result];
-      isOperator = false;
+      isOperator = false; 
     }
   } 
   else if (value === 'Backspace') 
@@ -71,14 +72,13 @@ function evaluateExpression(expression)
     return 'Error';
   }
 }
-
 buttons.forEach(button =>  button.addEventListener('click', () => calculate(button)));
 
 document.addEventListener('keydown', event => {const key = event.key;const validKeys = [   '0','1','2','3','4','5','6','7','8','9','+','-','*','/','(',')','=','Enter','Backspace',];
 console.log(key);
   
   if (validKeys.includes(key)) 
-  {
+  { 
     if (event.type === 'keydown' && key !== 'Enter') 
     {
       event.preventDefault();
