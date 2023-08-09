@@ -4,87 +4,113 @@ const buttons = document.querySelectorAll('button');
 let calculation = [];
 let isOperator = false;
 
-
 function calculate(button)
  {
   const value = button.value;
 
   if (value === 'c')
    {
+    // Temizle düğmesine basıldığında hesaplamayı sıfırla
     calculation = [];
     screen.value = '';
     isOperator = false;
   } 
-  else if (value === '=' ) 
+  else if (value === '=') 
   {
-    if (calculation.length > 0) 
-    {
+    // Eşittir düğmesine basıldığında hesaplamayı değerlendir ve sonucu göster
+    if (calculation.length > 0)
+     {
       const result = evaluateExpression(calculation.join(''));
       screen.value = result;
       calculation = [result];
-      isOperator = false; 
+      isOperator = false;
     }
-  } 
-  else if (value === 'Backspace') 
-  {
+  } else if (value === 'Backspace')
+   {
+    // Geri düğmesine basıldığında son karakteri sil
     calculation.pop();
     screen.value = calculation.join('');
     isOperator = false;
-  }
-   else if (value === 'sqrt')
-    {
+  } 
+  else if (value === 'sqrt') 
+  {
+    // Karekök düğmesine basıldığında hesaplamaya "Math.sqrt(" ekle
     calculation.push('Math.sqrt(');
     screen.value = calculation.join('');
     isOperator = false;
-   }
-    else if (['+', '-', '*', '/'].includes(value))
-     {
+  } 
+  else if (['+', '-', '*', '/'].includes(value)) 
+  {
+    // Operatör düğmesine basıldığında hesaplamaya operatör ekle
     if (isOperator && calculation.length > 0) 
     {
       calculation.pop();
       calculation.push(value);
       screen.value = calculation.join('');
-    }
-     else
-    {
+    } 
+    else
+     {
       calculation.push(value);
       screen.value = calculation.join('');
       isOperator = true;
     }
-  } 
-  else
+  }
+   else if (value === '.') 
    {
+    // Nokta düğmesine basıldığında sadece bir nokta eklemeye izin ver
+    if (!calculation.includes('.')) 
+    {
+      calculation.push(value);
+      screen.value = calculation.join('');
+      isOperator = false;
+    }
+  }
+   else 
+   {
+    // Diğer durumlarda hesaplamaya değeri ekle
     calculation.push(value);
     screen.value = calculation.join('');
     isOperator = false;
   }
 }
 
-function evaluateExpression(expression)
- {
+function evaluateExpression(expression) 
+{
   try 
   {
     const processedExpression = expression.replace(/x/g, '*');
     return eval(processedExpression);
   } 
-  catch (error)
-   {
+  catch (error) 
+  {
     return 'Error';
   }
-}// ... Mevcut kodunuz ...
+}
 
+// Düğmelere tıklama olay dinleyicisi ekle
 buttons.forEach(button => button.addEventListener('click', () => calculate(button)));
 
-document.addEventListener('keydown', event => {
+// Klavye olay dinleyicisi ekle
+document.addEventListener('keydown', event => 
+{
   const key = event.key;
-  const validKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '(', ')', '=', 'Enter', 'Backspace'];
+  const validKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '(', ')', '=', 'Enter', 'Backspace', '.', 'c'];
 
-  if (validKeys.includes(key)) {
-    if (event.type === 'keydown') {
+  if (validKeys.includes(key))
+   {
+    if (event.type === 'keydown')
+     {
       event.preventDefault();
-      if (key === 'Enter') {
-        calculate({ value: '=' }); // Simulate '=' key press when 'Enter' is pressed
-      } else {
+      if (key === 'Enter') 
+      {
+        calculate({ value: '=' });
+      }
+       else if (key === 'c') 
+      {
+        calculate({ value: 'c' });
+      } 
+      else 
+      {
         calculate({ value: key });
       }
     }
