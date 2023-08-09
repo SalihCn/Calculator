@@ -10,14 +10,12 @@ function calculate(button)
 
   if (value === 'c')
    {
-    // Temizle düğmesine basıldığında hesaplamayı sıfırla
     calculation = [];
     screen.value = '';
     isOperator = false;
   } 
   else if (value === '=') 
   {
-    // Eşittir düğmesine basıldığında hesaplamayı değerlendir ve sonucu göster
     if (calculation.length > 0)
      {
       const result = evaluateExpression(calculation.join(''));
@@ -27,21 +25,18 @@ function calculate(button)
     }
   } else if (value === 'Backspace')
    {
-    // Geri düğmesine basıldığında son karakteri sil
     calculation.pop();
     screen.value = calculation.join('');
     isOperator = false;
   } 
   else if (value === 'sqrt') 
   {
-    // Karekök düğmesine basıldığında hesaplamaya "Math.sqrt(" ekle
     calculation.push('Math.sqrt(');
     screen.value = calculation.join('');
     isOperator = false;
   } 
   else if (['+', '-', '*', '/'].includes(value)) 
   {
-    // Operatör düğmesine basıldığında hesaplamaya operatör ekle
     if (isOperator && calculation.length > 0) 
     {
       calculation.pop();
@@ -57,7 +52,6 @@ function calculate(button)
   }
    else if (value === '.') 
    {
-    // Nokta düğmesine basıldığında sadece bir nokta eklemeye izin ver
     if (!calculation.includes('.')) 
     {
       calculation.push(value);
@@ -67,7 +61,6 @@ function calculate(button)
   }
    else 
    {
-    // Diğer durumlarda hesaplamaya değeri ekle
     calculation.push(value);
     screen.value = calculation.join('');
     isOperator = false;
@@ -87,10 +80,8 @@ function evaluateExpression(expression)
   }
 }
 
-// Düğmelere tıklama olay dinleyicisi ekle
 buttons.forEach(button => button.addEventListener('click', () => calculate(button)));
 
-// Klavye olay dinleyicisi ekle
 document.addEventListener('keydown', event => 
 {
   const key = event.key;
