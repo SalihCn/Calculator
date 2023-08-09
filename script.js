@@ -71,18 +71,22 @@ function evaluateExpression(expression)
    {
     return 'Error';
   }
-}
-buttons.forEach(button =>  button.addEventListener('click', () => calculate(button)));
+}// ... Mevcut kodunuz ...
 
-document.addEventListener('keydown', event => {const key = event.key;const validKeys = [   '0','1','2','3','4','5','6','7','8','9','+','-','*','/','(',')','=','Enter','Backspace',];
-console.log(key);
-  
-  if (validKeys.includes(key)) 
-  { 
-    if (event.type === 'keydown' && key !== 'Enter') 
-    {
+buttons.forEach(button => button.addEventListener('click', () => calculate(button)));
+
+document.addEventListener('keydown', event => {
+  const key = event.key;
+  const validKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '(', ')', '=', 'Enter', 'Backspace'];
+
+  if (validKeys.includes(key)) {
+    if (event.type === 'keydown') {
       event.preventDefault();
-      calculate({ value: key });
+      if (key === 'Enter') {
+        calculate({ value: '=' }); // Simulate '=' key press when 'Enter' is pressed
+      } else {
+        calculate({ value: key });
+      }
     }
   }
 });
